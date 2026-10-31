@@ -1,0 +1,40 @@
+/* App */
+"Open in Office Web" = "Abrir en Office Web";
+"Cancel" = "Cancelar";
+"Preparing…" = "Preparando…";
+"OneDrive for Business was not found in ~/Library/CloudStorage. Install OneDrive and sign in with your work or school account." = "No encuentro OneDrive para empresas en ~/Library/CloudStorage. Instala OneDrive e inicia sesión con tu cuenta profesional o educativa.";
+"Copying to OneDrive › %@…" = "Copiando a OneDrive › %@…";
+"Couldn't copy the file to OneDrive: %@" = "No se ha podido copiar el archivo a OneDrive: %@";
+"Couldn't build the web address for this file." = "No se ha podido construir la dirección web de este archivo.";
+"Opening in Office for the web…" = "Abriendo en Office para la web…";
+"OneDrive couldn't upload the file: %@" = "OneDrive no ha podido subir el archivo: %@";
+"Synced ✓" = "Sincronizado ✓";
+"Uploading to OneDrive… %d%%" = "Subiendo a OneDrive… %d %%";
+"Uploading to OneDrive…" = "Subiendo a OneDrive…";
+"Waiting for OneDrive to sync…" = "Esperando a que OneDrive sincronice…";
+"OneDrive hasn't finished uploading the file" = "OneDrive todavía no ha terminado de subir el archivo";
+"It's been more than %d minutes. Check that OneDrive is running and online." = "Lleva más de %d minutos. Comprueba que OneDrive esté en marcha y con conexión.";
+"Keep Waiting" = "Seguir esperando";
+"Open in Desktop App" = "Abrir en la app de escritorio";
+"Couldn't open %@ in Office for the web" = "No se ha podido abrir %@ en Office para la web";
+"Close" = "Cerrar";
+
+/* Welcome window */
+"Open Word, PowerPoint and Excel files with this app" = "Abrir los archivos de Word, PowerPoint y Excel con esta app";
+"Sync web edits back to files outside OneDrive" = "Llevar los cambios hechos en la web a los archivos de fuera de OneDrive";
+"Double-click a Word, PowerPoint or Excel file and it opens in Microsoft 365 for the web, even if it isn't in OneDrive yet." = "Haz doble clic en un archivo de Word, PowerPoint o Excel y se abrirá en Microsoft 365 para la web, aunque todavía no esté en OneDrive.";
+"Open a Document…" = "Abrir un documento…";
+"Done" = "Listo";
+"Prefer the desktop app for one file? Right-click it and choose Open With." = "¿Quieres usar la app de escritorio para un archivo concreto? Haz clic derecho y elige Abrir con.";
+"Almost there: allow “Open in Office Web Sync” in System Settings › General › Login Items." = "Casi listo: permite «Open in Office Web Sync» en Ajustes del Sistema › General › Ítems de inicio.";
+"Files from your Desktop, Downloads and other folders are copied to OneDrive › %@. Edits made online are copied back to the original." = "Los archivos del Escritorio, Descargas y otras carpetas se copian a OneDrive › %@. Los cambios hechos online se copian de vuelta al original.";
+"Connected to OneDrive for Business (%@)" = "Conectado a OneDrive para empresas (%@)";
+"OneDrive for Business not found. Install OneDrive and sign in with your work or school account." = "No se ha encontrado OneDrive para empresas. Instala OneDrive e inicia sesión con tu cuenta profesional o educativa.";
+"Choose the documents to open in Office for the web" = "Elige los documentos que quieres abrir en Office para la web";
+
+/* Sync agent */
+"Changes saved" = "Cambios guardados";
+"%@ was updated with the version from Office for the web." = "%@ se ha actualizado con la versión de Office para la web.";
+"%@ (web version)" = "%@ (versión web)";
+"Conflict in %@" = "Conflicto en %@";
+"The file changed both on this Mac and on the web. The web version was saved as %@." = "El archivo ha cambiado en este Mac y en la web. La versión web se ha guardado como %@.";
