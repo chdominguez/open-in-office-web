@@ -1,0 +1,413 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Open in Office Web</title>
+<meta name="description" content="Double-click a Word, PowerPoint or Excel file on your Mac and it opens in Microsoft 365 for the web, even if it isn't in OneDrive yet. Free, open source, under 2 MB.">
+<meta name="color-scheme" content="light dark">
+<link rel="icon" type="image/png" href="images/icon.png">
+<link rel="apple-touch-icon" href="images/icon.png">
+<link rel="canonical" href="https://chdominguez.github.io/open-in-office-web/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Open in Office Web">
+<meta property="og:description" content="Double-click a Word, PowerPoint or Excel file on your Mac and it opens in Microsoft 365 for the web.">
+<meta property="og:url" content="https://chdominguez.github.io/open-in-office-web/">
+<meta property="og:image" content="https://chdominguez.github.io/open-in-office-web/images/welcome-light.png">
+<meta name="twitter:card" content="summary_large_image">
+<style>
+  :root {
+    --bg: #fbfbfd;
+    --surface: #f1f2f6;
+    --text: #16181d;
+    --muted: #5a5f6b;
+    --line: #e1e3ea;
+    --accent: #1d5fe0;
+    --accent-ink: #ffffff;
+    --accent-soft: #e7eefc;
+    --code-bg: #eef0f5;
+    --shadow: 0 1px 2px rgb(29 95 224 / .08), 0 8px 24px rgb(29 95 224 / .10);
+    --radius: 14px;
+    --sans: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", system-ui, sans-serif;
+    --display: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Helvetica Neue", system-ui, sans-serif;
+    --mono: ui-monospace, "SF Mono", Menlo, monospace;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #111216;
+      --surface: #1a1c22;
+      --text: #ecedf1;
+      --muted: #a2a7b3;
+      --line: #2a2d35;
+      --accent: #4c86f5;
+      --accent-ink: #0b1020;
+      --accent-soft: #18233b;
+      --code-bg: #1f2229;
+      --shadow: 0 1px 2px rgb(0 0 0 / .3), 0 8px 24px rgb(0 0 0 / .35);
+    }
+  }
+
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font: 17px/1.55 var(--sans);
+    -webkit-font-smoothing: antialiased;
+  }
+  img { max-width: 100%; height: auto; display: block; }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  code { font: .88em var(--mono); background: var(--code-bg); padding: .12em .4em; border-radius: 6px; }
+  pre {
+    font: 14px/1.6 var(--mono); background: var(--code-bg); border-radius: 10px;
+    padding: 14px 16px; overflow-x: auto; margin: 12px 0 0;
+  }
+  pre code { background: none; padding: 0; font-size: inherit; }
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 6px; }
+
+  .wrap { max-width: 1120px; margin: 0 auto; padding: 0 24px; }
+  @media (max-width: 640px) { .wrap { padding: 0 16px; } }
+
+  /* Nav */
+  .nav { position: sticky; top: 0; z-index: 10; background: color-mix(in srgb, var(--bg) 85%, transparent);
+    backdrop-filter: saturate(180%) blur(16px); -webkit-backdrop-filter: saturate(180%) blur(16px);
+    border-bottom: 1px solid var(--line); }
+  .nav .wrap { display: flex; align-items: center; justify-content: space-between; height: 60px; gap: 16px; }
+  .brand { display: flex; align-items: center; gap: 10px; color: var(--text); font-weight: 600; white-space: nowrap; }
+  .brand:hover { text-decoration: none; }
+  .brand img { width: 28px; height: 28px; }
+  .nav ul { display: flex; gap: 24px; list-style: none; margin: 0; padding: 0; font-size: 15px; }
+  .nav ul a { color: var(--muted); }
+  .nav ul a:hover { color: var(--text); text-decoration: none; }
+  @media (max-width: 640px) { .nav ul li:not(:last-child) { display: none; } }
+
+  /* Buttons */
+  .btn { display: inline-flex; align-items: center; gap: 8px; height: 46px; padding: 0 22px; border-radius: 999px;
+    font-weight: 600; font-size: 16px; white-space: nowrap; transition: transform .15s ease, background-color .15s ease; }
+  .btn:hover { text-decoration: none; }
+  .btn:active { transform: scale(.98); }
+  .btn-primary { background: var(--accent); color: var(--accent-ink); box-shadow: var(--shadow); }
+  .btn-primary:hover { background: color-mix(in srgb, var(--accent) 88%, var(--text)); }
+  .btn-ghost { color: var(--text); border: 1px solid var(--line); }
+  .btn-ghost:hover { background: var(--surface); }
+
+  /* Hero */
+  .hero { padding: 72px 0 40px; }
+  .hero .wrap { display: grid; grid-template-columns: 1fr 1.05fr; gap: 48px; align-items: center; }
+  .hero h1 { font: 700 clamp(38px, 5.2vw, 60px)/1.05 var(--display); letter-spacing: -.025em; margin: 0 0 20px; }
+  .hero p { font-size: 20px; color: var(--muted); margin: 0 0 32px; max-width: 32ch; }
+  .actions { display: flex; flex-wrap: wrap; gap: 12px; }
+  .hero-shot { margin-right: -24px; }
+  @media (max-width: 860px) {
+    .hero { padding-top: 48px; }
+    .hero .wrap { grid-template-columns: 1fr; gap: 24px; }
+    .hero-shot { margin: 0 -8px; }
+  }
+
+  .facts { border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+  .facts ul { display: grid; grid-template-columns: repeat(4, 1fr); list-style: none; margin: 0; padding: 22px 0; gap: 16px; }
+  .facts li { font-size: 15px; color: var(--muted); }
+  .facts strong { display: block; color: var(--text); font-size: 17px; }
+  @media (max-width: 760px) { .facts ul { grid-template-columns: 1fr 1fr; } }
+
+  section { scroll-margin-top: 72px; }
+  h2 { font: 700 clamp(28px, 3.4vw, 40px)/1.15 var(--display); letter-spacing: -.02em; margin: 0 0 16px; }
+  h3 { font-size: 18px; margin: 0 0 6px; }
+  .lede { color: var(--muted); font-size: 19px; max-width: 60ch; margin: 0; }
+
+  /* Features: screenshot + 2x2 grid */
+  .features { padding: 96px 0; }
+  .features .wrap { display: grid; grid-template-columns: 1.1fr 1fr; gap: 56px; align-items: center; }
+  .feature-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 28px 32px; margin-top: 32px; }
+  .feature-grid p { margin: 0; color: var(--muted); font-size: 16px; }
+  .feature-grid div { border-top: 2px solid var(--accent); padding-top: 14px; }
+  @media (max-width: 860px) {
+    .features { padding: 64px 0; }
+    .features .wrap { grid-template-columns: 1fr; gap: 24px; }
+    .features .shot { order: 2; }
+  }
+  @media (max-width: 520px) { .feature-grid { grid-template-columns: 1fr; } }
+
+  /* How it works: full-width band, three columns */
+  .how { background: var(--surface); padding: 88px 0; }
+  .flow { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; margin-top: 40px; counter-reset: step; }
+  .flow li { list-style: none; padding: 0 28px 0 0; position: relative; }
+  .flow li + li { padding-left: 28px; border-left: 1px solid var(--line); }
+  .flow li::before { counter-increment: step; content: counter(step); display: grid; place-items: center;
+    width: 32px; height: 32px; border-radius: 999px; background: var(--accent-soft); color: var(--accent);
+    font-weight: 700; font-size: 15px; margin-bottom: 14px; }
+  .flow p { margin: 0; color: var(--muted); font-size: 16px; }
+  .flow ol { margin: 0; padding: 0; }
+  @media (max-width: 860px) {
+    .how { padding: 64px 0; }
+    .flow { grid-template-columns: 1fr; gap: 28px; }
+    .flow li, .flow li + li { padding: 0; border: 0; }
+  }
+
+  /* Install */
+  .install { padding: 96px 0; }
+  .install .wrap { display: grid; grid-template-columns: 1fr 1.25fr; gap: 56px; }
+  .steps { margin: 0; padding: 0; list-style: none; display: grid; gap: 24px; counter-reset: s; }
+  .steps > li { padding-left: 44px; position: relative; }
+  .steps > li::before { counter-increment: s; content: counter(s); position: absolute; left: 0; top: 0;
+    width: 28px; height: 28px; border-radius: 999px; border: 1px solid var(--line); display: grid; place-items: center;
+    font-size: 14px; font-weight: 600; color: var(--muted); }
+  .steps h3 { margin-bottom: 4px; }
+  .steps p, .steps ul { margin: 0; color: var(--muted); font-size: 16px; }
+  .steps ul { padding-left: 18px; margin-top: 6px; }
+  .req { margin-top: 28px; padding: 18px 20px; border-radius: var(--radius); background: var(--accent-soft); font-size: 16px; }
+  .req p { margin: 0; }
+  @media (max-width: 860px) {
+    .install { padding: 64px 0; }
+    .install .wrap { grid-template-columns: 1fr; gap: 32px; }
+  }
+
+  /* Privacy statement */
+  .privacy { padding: 0 0 96px; }
+  .privacy-card { border: 1px solid var(--line); border-radius: var(--radius); padding: 40px; display: grid;
+    grid-template-columns: 1fr 1fr; gap: 32px; align-items: center; }
+  .privacy-card h2 { margin: 0; }
+  .privacy-card p { margin: 0; color: var(--muted); }
+  @media (max-width: 760px) { .privacy-card { grid-template-columns: 1fr; padding: 28px 22px; gap: 14px; } }
+
+  /* FAQ */
+  .faq { padding: 0 0 96px; }
+  .faq .wrap { max-width: 820px; }
+  details { border-bottom: 1px solid var(--line); }
+  details:first-of-type { border-top: 1px solid var(--line); margin-top: 24px; }
+  summary { cursor: pointer; list-style: none; padding: 20px 36px 20px 0; font-weight: 600; position: relative; }
+  summary::-webkit-details-marker { display: none; }
+  summary::after { content: "+"; position: absolute; right: 4px; top: 50%; transform: translateY(-50%);
+    font-size: 22px; font-weight: 400; color: var(--muted); transition: transform .2s ease; }
+  details[open] summary::after { transform: translateY(-50%) rotate(45deg); }
+  details .answer { padding: 0 0 22px; color: var(--muted); font-size: 16px; }
+  details .answer p { margin: 0 0 10px; }
+
+  /* Closing CTA + footer */
+  .cta { padding: 0 0 96px; text-align: center; }
+  .cta img { width: 88px; height: 88px; margin: 0 auto 20px; }
+  .cta h2 { margin-bottom: 24px; }
+  .cta .actions { justify-content: center; }
+  footer { border-top: 1px solid var(--line); padding: 32px 0 40px; font-size: 14px; color: var(--muted); }
+  footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 20px; }
+  footer p { margin: 0; max-width: 60ch; }
+  .badge-dark { display: none; }
+  @media (prefers-color-scheme: dark) { .badge-light { display: none; } .badge-dark { display: block; } }
+
+  /* Motion: hero entrance only */
+  @media (prefers-reduced-motion: no-preference) {
+    .rise { animation: rise .7s cubic-bezier(.16, 1, .3, 1) both; }
+    .rise.d1 { animation-delay: .08s; }
+    .rise.d2 { animation-delay: .16s; }
+    @keyframes rise { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+  }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+</style>
+</head>
+<body>
+
+<nav class="nav" aria-label="Main">
+  <div class="wrap">
+    <a class="brand" href="#top"><img src="images/icon.png" alt="" width="28" height="28">Open in Office Web</a>
+    <ul>
+      <li><a href="#how">How it works</a></li>
+      <li><a href="#install">Install</a></li>
+      <li><a href="#faq">FAQ</a></li>
+      <li><a href="https://github.com/chdominguez/open-in-office-web">GitHub</a></li>
+    </ul>
+  </div>
+</nav>
+
+<main id="top">
+  <header class="hero">
+    <div class="wrap">
+      <div>
+        <h1 class="rise">Double-click. It opens in Office for the web.</h1>
+        <p class="rise d1">Word, PowerPoint and Excel files on your Mac open in Microsoft 365 for the web, even outside OneDrive.</p>
+        <div class="actions rise d2">
+          <a class="btn btn-primary js-download" href="https://github.com/chdominguez/open-in-office-web/releases/latest">Download for Mac</a>
+          <a class="btn btn-ghost" href="https://github.com/chdominguez/open-in-office-web">View source</a>
+        </div>
+      </div>
+      <div class="hero-shot rise d1">
+        <picture>
+          <source media="(prefers-color-scheme: dark)" srcset="images/progress-dark.png">
+          <img src="images/progress-light.png" width="1040" height="492" alt="Progress window uploading Quarterly Report.docx to OneDrive before opening it in Word for the web" fetchpriority="high">
+        </picture>
+      </div>
+    </div>
+  </header>
+
+  <div class="facts">
+    <div class="wrap">
+      <ul>
+        <li><strong>Free and open source</strong>MIT licensed</li>
+        <li><strong>Under 2 MB</strong>Native Swift, no Electron</li>
+        <li><strong>macOS 13 or later</strong>Apple Silicon and Intel</li>
+        <li><strong>No telemetry</strong>Makes no network requests</li>
+      </ul>
+    </div>
+  </div>
+
+  <section class="features" aria-labelledby="features-title">
+    <div class="wrap">
+      <div class="shot">
+        <picture>
+          <source media="(prefers-color-scheme: dark)" srcset="images/welcome-dark.png">
+          <img src="images/welcome-light.png" width="1160" height="886" loading="lazy" alt="Welcome window showing the OneDrive connection and two options: open Office files with this app, and sync web edits back">
+        </picture>
+      </div>
+      <div>
+        <h2 id="features-title">Office for the web, as your default app.</h2>
+        <p class="lede">It's fast, always up to date, and autosaves. This app makes it what opens when you double-click a document.</p>
+        <div class="feature-grid">
+          <div>
+            <h3>Any folder</h3>
+            <p>Files in OneDrive open straight away. Files on your Desktop or in Downloads are copied to OneDrive first.</p>
+          </div>
+          <div>
+            <h3>Sync back</h3>
+            <p>Edits made online are copied back to the original file, and local edits go up to OneDrive.</p>
+          </div>
+          <div>
+            <h3>Real upload status</h3>
+            <p>Progress comes from macOS File Provider, the same source Finder uses for its cloud icons.</p>
+          </div>
+          <div>
+            <h3>Safe fallback</h3>
+            <p>If OneDrive is offline, one click opens the file in the desktop app instead.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="how" id="how" aria-labelledby="how-title">
+    <div class="wrap">
+      <h2 id="how-title">How it works</h2>
+      <p class="lede">No sign-in and no Microsoft Graph calls. The app works with the OneDrive client you already have.</p>
+      <ol class="flow">
+        <li>
+          <h3>Find OneDrive</h3>
+          <p>It locates your OneDrive for Business folder and reads your SharePoint address from the shortcut OneDrive keeps there.</p>
+        </li>
+        <li>
+          <h3>Wait for the upload</h3>
+          <p>Files outside OneDrive are copied in. The app watches File Provider until macOS reports the copy as uploaded.</p>
+        </li>
+        <li>
+          <h3>Open the right link</h3>
+          <p>It builds the same kind of link as OneDrive's "Copy link", so the document opens in the browser instead of downloading.</p>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="install" id="install" aria-labelledby="install-title">
+    <div class="wrap">
+      <div>
+        <h2 id="install-title">Install</h2>
+        <p class="lede">About a minute, start to finish.</p>
+        <div class="req">
+          <p><strong>You need</strong> macOS 13 Ventura or later and the <a href="https://www.microsoft.com/microsoft-365/onedrive/download">OneDrive app</a> signed in with a work or school account.</p>
+        </div>
+      </div>
+      <ol class="steps">
+        <li>
+          <h3>Download</h3>
+          <p>Get the <a class="js-download" href="https://github.com/chdominguez/open-in-office-web/releases/latest">latest .dmg</a> and drag the app to Applications.</p>
+        </li>
+        <li>
+          <h3>Open it the first time</h3>
+          <p>The app isn't notarized by Apple yet, so macOS asks once:</p>
+          <ul>
+            <li><strong>macOS 15 and later:</strong> click Done, then go to System Settings &rsaquo; Privacy &amp; Security and click Open Anyway.</li>
+            <li><strong>macOS 13 and 14:</strong> right-click the app, choose Open, then confirm.</li>
+          </ul>
+        </li>
+        <li>
+          <h3>Choose your options</h3>
+          <p>In the welcome window, make it the default for Office files and turn on sync back if you want it. You can reopen this window any time from Applications.</p>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="privacy" aria-labelledby="privacy-title">
+    <div class="wrap">
+      <div class="privacy-card">
+        <h2 id="privacy-title">Everything stays on your Mac.</h2>
+        <p>The app makes no network requests of its own and has no telemetry. It reads and writes files locally. OneDrive does the uploading, and your browser opens the document.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="faq" id="faq" aria-labelledby="faq-title">
+    <div class="wrap">
+      <h2 id="faq-title">Questions</h2>
+      <details>
+        <summary>Why does macOS say the app can't be verified?</summary>
+        <div class="answer">
+          <p>Notarization requires a paid Apple Developer ID, which this project doesn't have yet. Releases are built in the open by GitHub Actions from the public source code, and you can build it yourself in under a minute. To skip the Gatekeeper prompt after downloading, run:</p>
+          <pre><code>xattr -dr com.apple.quarantine "/Applications/Open in Office Web.app"</code></pre>
+        </div>
+      </details>
+      <details>
+        <summary>Does it work with personal OneDrive or SharePoint team sites?</summary>
+        <div class="answer"><p>Not yet. Only OneDrive for Business (work or school) is supported. Files in synced SharePoint libraries are copied to OneDrive first, like any other file.</p></div>
+      </details>
+      <details>
+        <summary>What happens if I edit the same file in both places?</summary>
+        <div class="answer"><p>The original is never overwritten. The web version is saved next to it as <code>report (web version).docx</code> and you get a notification.</p></div>
+      </details>
+      <details>
+        <summary>Can I still use the desktop Office apps?</summary>
+        <div class="answer"><p>Yes. Right-click any file and choose Open With. To hand Office files back to the desktop apps for good, turn off the first option in the welcome window.</p></div>
+      </details>
+      <details>
+        <summary>How do I uninstall it?</summary>
+        <div class="answer"><p>Open the app, turn off both options, then delete it. Optionally also delete <code>~/Library/Application Support/OpenInOfficeWeb</code> and the Open in Office Web folder in OneDrive.</p></div>
+      </details>
+    </div>
+  </section>
+
+  <section class="cta" aria-labelledby="cta-title">
+    <div class="wrap">
+      <img src="images/icon.png" alt="" width="88" height="88" loading="lazy">
+      <h2 id="cta-title">Try it on your next document.</h2>
+      <div class="actions">
+        <a class="btn btn-primary js-download" href="https://github.com/chdominguez/open-in-office-web/releases/latest">Download for Mac</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <p>&copy; Christian Domínguez. <a href="https://github.com/chdominguez/open-in-office-web/blob/main/LICENSE">MIT License</a>. Not affiliated with Microsoft. Microsoft 365, OneDrive, Word, PowerPoint and Excel are trademarks of Microsoft Corporation.</p>
+    <a href="https://macbrowse.com">
+      <img class="badge-light" src="https://macbrowse.com/badge/listed-light.svg" alt="Listed on Mac Browse" width="220" height="48" loading="lazy">
+      <img class="badge-dark" src="https://macbrowse.com/badge/listed-dark.svg" alt="Listed on Mac Browse" width="220" height="48" loading="lazy">
+    </a>
+  </div>
+</footer>
+
+<script>
+  // Point download buttons straight at the .dmg of the latest release; falls back to the releases page.
+  fetch("https://api.github.com/repos/chdominguez/open-in-office-web/releases/latest")
+    .then(function (r) { return r.ok ? r.json() : null; })
+    .then(function (rel) {
+      if (!rel || !rel.assets) return;
+      var dmg = rel.assets.find(function (a) { return /\.dmg$/i.test(a.name); });
+      if (!dmg) return;
+      document.querySelectorAll(".js-download").forEach(function (a) {
+        a.href = dmg.browser_download_url;
+        a.title = dmg.name;
+      });
+    })
+    .catch(function () {});
+</script>
+</body>
+</html>
