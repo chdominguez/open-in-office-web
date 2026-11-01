@@ -11,6 +11,8 @@
 ![Apple Silicon and Intel](https://img.shields.io/badge/Apple%20Silicon%20%2B%20Intel-universal-lightgrey)
 [![MIT License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 
+<a href="https://macbrowse.com"><img src="https://macbrowse.com/badge/listed-light.svg" alt="Listed on Mac Browse" width="220" height="48"></a>
+
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/images/progress-dark.png">
   <img src="docs/images/progress-light.png" width="520" alt="Progress window uploading Quarterly Report.docx to OneDrive">
