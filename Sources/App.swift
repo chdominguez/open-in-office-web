@@ -5,6 +5,18 @@ let uploadTimeout: TimeInterval = 180
 
 enum UploadResult { case uploaded, failed(String), cancelled }
 
+/// False when the file clearly isn't an Office document, e.g. an HTML error page saved as .xls.
+/// Accepts ZIP (.docx/.pptx/.xlsx) and OLE compound files (.doc/.ppt/.xls, and password-protected
+/// OOXML). Empty or unreadable files pass so that other code paths report them as before.
+func hasOfficeSignature(_ file: URL) -> Bool {
+    guard let handle = try? FileHandle(forReadingFrom: file) else { return true }
+    defer { try? handle.close() }
+    guard let head = try? handle.read(upToCount: 8), !head.isEmpty else { return true }
+    let zip: [UInt8] = [0x50, 0x4B, 0x03, 0x04]
+    let ole: [UInt8] = [0xD0, 0xCF, 0x11, 0xE0, 0xA1, 0xB1, 0x1A, 0xE1]
+    return head.starts(with: zip) || head.starts(with: ole)
+}
+
 @MainActor
 final class AppDelegate: NSObject, NSApplicationDelegate {
     let ui = ProgressPanel()
@@ -75,6 +87,11 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         var target = file
         var wrote = false
         if oneDrive.relativePath(of: file) == nil {
+            // Checked only outside OneDrive: reading an online-only OneDrive file would download it.
+            guard hasOfficeSignature(file) else {
+                fail(file, L("This file isn't a valid Office document. It may be a web page or an error message saved with an Office extension. Try downloading it again."))
+                return
+            }
             ui.update(L("Copying to OneDrive › %@…", tempFolderName), 0.15)
             do {
                 (target, wrote) = try copyToTemp(file, oneDrive: oneDrive)

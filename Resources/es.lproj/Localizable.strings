@@ -38,3 +38,4 @@
 "%@ (web version)" = "%@ (versión web)";
 "Conflict in %@" = "Conflicto en %@";
 "The file changed both on this Mac and on the web. The web version was saved as %@." = "El archivo ha cambiado en este Mac y en la web. La versión web se ha guardado como %@.";
+"This file isn't a valid Office document. It may be a web page or an error message saved with an Office extension. Try downloading it again." = "Este archivo no es un documento de Office válido. Puede ser una página web o un mensaje de error guardado con una extensión de Office. Prueba a descargarlo de nuevo.";

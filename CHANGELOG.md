@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.0.1
+
+- Files that aren't real Office documents (for example a web page or a "404 Not Found" error saved as `.xls`) are now caught before upload, with a clear message, instead of being uploaded to OneDrive and downloaded again by the browser.
+
 ## 1.0.0
 
 First public release.
